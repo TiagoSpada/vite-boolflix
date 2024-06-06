@@ -1,5 +1,16 @@
-<script></script>
+<script>
+import MainContent from "./components/AppMain.vue";
+export default {
+	name: "Boolflix",
+	components: {
+		MainContent,
+	},
+	data() {
+		return {};
+	},
+};
+</script>
 
-<template><h1>Vue Vitte Template (scss)</h1></template>
+<template><MainContent /></template>
 
 <style></style>
