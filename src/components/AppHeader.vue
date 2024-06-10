@@ -1,5 +1,19 @@
-<script></script>
+<script>
+export default {
+	name: "AppHeader",
+};
+</script>
 
-<template></template>
+<template>
+	<header>
+		<div class="container-lg">
+			<h1>Booflix</h1>
+		</div>
+	</header>
+</template>
 
-<style></style>
+<style scoped lang="scss">
+header {
+	padding: 30px 0;
+}
+</style>
