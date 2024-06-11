@@ -1,7 +1,11 @@
 <script>
+import CardElement from "./CardElement.vue";
 import { store } from "../store";
 export default {
 	name: "ListTv",
+	components: {
+		CardElement,
+	},
 	data() {
 		return {
 			store,
@@ -10,10 +14,14 @@ export default {
 	},
 	methods: {
 		getImageLenguage: function (img) {
+			if (!img) return;
+
 			return new URL(`../assets/img/flag-${img}.png`, import.meta.url).href;
 		},
 		getPoster(img) {
-			return new URL(`${this.store.urlImg}w185/${img}`, import.meta.url).href;
+			if (!img) return;
+
+			return new URL(`${this.store.urlImg}w500/${img}`, import.meta.url).href;
 		},
 		getVoteStar(vote) {
 			return Math.ceil(vote / 2);
@@ -24,9 +32,22 @@ export default {
 
 <template>
 	<div>
+		<hr />
 		<h2>Serie Tv</h2>
-		<ul class="list-group">
-			<li v-for="Tv in store.resultsTv" class="list-group-item">
+		<ul class="row ps-0">
+			<CardElement
+				class="col-3"
+				v-for="Tv in store.resultsTv"
+				:poster="Tv.poster_path"
+				:posterPath="getPoster(Tv.poster_path)"
+				:nome="Tv.name"
+				:nomeOriginale="Tv.original_name"
+				:lingua="Tv.original_language"
+				:bandieraLingua="getImageLenguage(Tv.original_language)"
+				:starVote="getVoteStar(Tv.vote_average)"
+				:starNumber="starNumber"
+			/>
+			<!-- <li v-for="Tv in store.resultsTv" class="list-group-item">
 				<ul>
 					<li>
 						<img
@@ -71,13 +92,15 @@ export default {
 						/>
 					</li>
 				</ul>
-			</li>
+			</li> -->
 		</ul>
 	</div>
 </template>
 
 <style scoped lang="scss">
-.img-flag {
-	width: 20px;
+h2 {
+	text-align: center;
+	color: #fff;
+	margin: 30px 0;
 }
 </style>

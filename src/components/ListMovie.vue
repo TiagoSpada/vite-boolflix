@@ -1,7 +1,12 @@
 <script>
+import CardElement from "./CardElement.vue";
+
 import { store } from "../store";
 export default {
 	name: "ListMovie",
+	components: {
+		CardElement,
+	},
 	data() {
 		return {
 			store,
@@ -10,10 +15,13 @@ export default {
 	},
 	methods: {
 		getImageLenguage(img) {
+			if (!img) return;
+
 			return new URL(`../assets/img/flag-${img}.png`, import.meta.url).href;
 		},
 		getPoster(img) {
-			return new URL(`${this.store.urlImg}w185/${img}`, import.meta.url).href;
+			if (!img) return;
+			return new URL(`${this.store.urlImg}w500/${img}`, import.meta.url).href;
 		},
 		getVoteStar(vote) {
 			return Math.ceil(vote / 2);
@@ -25,8 +33,20 @@ export default {
 <template>
 	<div>
 		<h2>Movies</h2>
-		<ul class="list-group">
-			<li v-for="movie in store.resultsMovies" class="list-group-item">
+		<ul class="row ps-0">
+			<CardElement
+				class="col-3"
+				v-for="movie in store.resultsMovies"
+				:poster="movie.poster_path"
+				:posterPath="getPoster(movie.poster_path)"
+				:nome="movie.title"
+				:nomeOriginale="movie.original_title"
+				:lingua="movie.original_language"
+				:bandieraLingua="getImageLenguage(movie.original_language)"
+				:starVote="getVoteStar(movie.vote_average)"
+				:starNumber="starNumber"
+			/>
+			<!-- <li v-for="movie in store.resultsMovies" class="list-group-item">
 				<ul>
 					<li>
 						<img
@@ -71,7 +91,7 @@ export default {
 						/>
 					</li>
 				</ul>
-			</li>
+			</li> -->
 		</ul>
 	</div>
 </template>
@@ -79,5 +99,11 @@ export default {
 <style scoped lang="scss">
 .img-flag {
 	width: 20px;
+}
+
+h2 {
+	text-align: center;
+	color: #fff;
+	margin: 30px 0;
 }
 </style>
